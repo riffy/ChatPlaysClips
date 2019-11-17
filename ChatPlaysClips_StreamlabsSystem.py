@@ -1,9 +1,6 @@
-#---------------------------------------
+# ---------------------------------------
 # Import Libraries
-#---------------------------------------
-#import clr
-#clr.AddReference("IronPython.Modules.dll")
-
+# ---------------------------------------
 import os
 import json
 import codecs
@@ -14,18 +11,18 @@ import constants
 BridgeApp = os.path.join(os.path.dirname(__file__), "bridge\\SLOBSRC.exe")
 from clips import Clip
 
-#---------------------------------------
+# ---------------------------------------
 # Script Information
-#---------------------------------------
+# ---------------------------------------
 ScriptName = "ChatPlaysClips"
 Website = "https://www.twitch.tv/meisterboom"
 Description = "Allows viewers to play certain clips and videos with a chat command."
 Creator = "MeisterBoom"
 Version = "0.1.0"
 
-#---------------------------------------
+# ---------------------------------------
 # Globals
-#---------------------------------------
+# ---------------------------------------
 work_dir = None
 settings_file = None
 settings = {}
@@ -37,26 +34,29 @@ global_cooldown_setting = 0
 user_cooldown_key = "!CPC_USER"
 user_cooldown_setting = 0
 
-#---------------------------------------
+# ---------------------------------------
 # Helper Functions
-#---------------------------------------
+# ---------------------------------------
+
 
 def Logger(response):
     if response:
         Parent.Log(ScriptName, response)
     return
 
-def SetSourceVisibility(source, visibility, scene=None):
-	""" Set the visibility of a source optionally in a targeted scene. """
-	if scene:
-		Logger(os.popen("{0} visibility_source_scene \"{1}\" \"{2}\" {3}".format(BridgeApp, source, scene, visibility)).read())
-	else:
-		Logger(os.popen("{0} visibility_source_active \"{1}\" {2}".format(BridgeApp, source, visibility)).read())
-	return
 
-#---------------------------------------
+def SetSourceVisibility(source, visibility, scene=None):
+    """ Set the visibility of a source optionally in a targeted scene. """
+    if scene:
+        Logger(os.popen("{0} visibility_source_scene \"{1}\" \"{2}\" {3}".format(BridgeApp, source, scene, visibility)).read())
+    else:
+        Logger(os.popen("{0} visibility_source_active \"{1}\" {2}".format(BridgeApp, source, visibility)).read())
+    return
+
+
+# ---------------------------------------
 # Init
-#---------------------------------------
+# ---------------------------------------
 def Init():
     global work_dir
     global ui_config_file
@@ -95,6 +95,7 @@ def __init_settings():
         Logger("__init_settings_file: " + str(e))
         return False
 
+
 def __load_clips_from_directory():
     """ Loads the clips from the directory parsed in the settings file. Returns True on success"""
     try:
@@ -108,6 +109,7 @@ def __load_clips_from_directory():
     except Exception, e:
         Logger("__load_clips_from_directory: " + str(e))
         return False
+
 
 def __overwrite_ui_config():
     """ Overwrites the UI_Config to display all the clips loaded."""
@@ -127,6 +129,7 @@ def __overwrite_ui_config():
             __reset_ui_settings()
     except Exception, e:
         Logger("__overwrite_ui_config: " + str(e))
+
 
 def __reset_ui_settings():
     """ Resets the UI_Config."""
@@ -160,6 +163,7 @@ def Execute(data):
                         break
     return
 
+
 def __cost_check(clip, userId, username):
     if clip.cost is not None and clip.cost > 0:
         userpoints = Parent.GetPoints(userId)
@@ -177,6 +181,7 @@ def __cost_check(clip, userId, username):
     else:
         return True
 
+
 def __global_cooldown_check(username):
     if global_cooldown_setting <= 0:
         return True
@@ -193,6 +198,7 @@ def __global_cooldown_check(username):
         else:
             return True
 
+
 def __user_cooldown_check(userId, username):
     if user_cooldown_setting <= 0:
         return True
@@ -208,6 +214,7 @@ def __user_cooldown_check(userId, username):
             return False
         else:
             return True
+
 
 def __clip_cooldown_check(clip, username):
     if clip.cooldown <= 0:
@@ -226,6 +233,7 @@ def __clip_cooldown_check(clip, username):
         else:
             return True
 
+
 def __play_clip(clip, userId):
     global clip_playing
     clip_playing = True
@@ -242,10 +250,12 @@ def __play_clip(clip, userId):
         t.start()
     return
 
+
 def __show_clip(clip):
     clip.playing = True
     threading.Thread(target=SetSourceVisibility, args=(clip.source, "on", clip.scene)).start()
     return
+
 
 def __hide_clip(clip):
     global clip_playing
@@ -254,12 +264,9 @@ def __hide_clip(clip):
     threading.Thread(target=SetSourceVisibility, args=(clip.source, "off", clip.scene)).start()
     return
 
-#---------------------------------------
-# Tick
-#---------------------------------------
-def Tick():
-    return
 
-def ReloadSettings(jsonData):
-    Init()
+# ---------------------------------------
+# Tick
+# ---------------------------------------
+def Tick():
     return

@@ -19,6 +19,7 @@ class Clip(object):
         self.scene_key = "scene_name"
         self.__apply_settings(settings)
 
+
     def __apply_settings(self, settings):
         if self.active_key in settings:
             self.active = settings[self.active_key]
@@ -40,17 +41,21 @@ class Clip(object):
         else:
             self.scene = None
 
+
     def fullpath(self):
         return self.path + "\\" + self.file
+
 
     def filename(self, extension=False):
         if extension:
             return self.file
         return self.file[:self.file.rfind(".")]
 
+
     def ui_settings(self):
         return self._ui_active() + ",\n  " + self._ui_source() + ",\n  " + self._ui_duration() + ",\n  " + \
                self._ui_cost() + ",\n  " + self._ui_cooldown() + ",\n  " + self._ui_command()
+
 
     def _ui_active(self):
         re = """"clip_{}_active": """.format(self.filename()) + "{\n" + """    "group": "{}",
@@ -60,6 +65,7 @@ class Clip(object):
     "tooltip": "Enables / Disables the clip." """.format(self.filename(True), str(self.active).lower()) + "\n  }"
         return re
 
+
     def _ui_source(self):
         re = """"clip_{}_source": """.format(self.filename()) + "{\n" + """    "group": "{}",
     "type": "textbox",
@@ -67,6 +73,7 @@ class Clip(object):
     "label": "SLOBS Source Name",
     "tooltip": "Sourcename in Streamlabs OBS for the clip." """.format(self.filename(True), self.source) + "\n  }"
         return re
+
 
     def _ui_duration(self):
         re = """"clip_{}_duration": """.format(self.filename()) + "{\n" + """    "group": "{}",
@@ -77,6 +84,7 @@ class Clip(object):
              "\n  }"
         return re
 
+
     def _ui_cost(self):
         re = """"clip_{}_cost": """.format(self.filename()) + "{\n" + """    "group": "{}",
     "type": "numberbox",
@@ -86,6 +94,7 @@ class Clip(object):
              "\n  }"
         return re
 
+
     def _ui_cooldown(self):
         re = """"clip_{}_cooldown": """.format(self.filename()) + "{\n" + """    "group": "{}",
     "type": "numberbox",
@@ -94,6 +103,7 @@ class Clip(object):
     "tooltip": "Cooldown in seconds until this clip can be played again in seconds." """.format(self.filename(True), self.cooldown) + \
              "\n  }"
         return re
+
 
     def _ui_command(self):
         re = """"clip_{}_command": """.format(self.filename()) + "{\n" + """    "group": "{}",
