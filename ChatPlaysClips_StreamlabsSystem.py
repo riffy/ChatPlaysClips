@@ -159,7 +159,7 @@ def Execute(data):
                             if __user_cooldown_check(userId, username):
                                 if __global_cooldown_check(username):
                                     if __clip_cooldown_check(clip, username):
-                                        __play_clip(clip, userId)
+                                        __play_clip(clip, userId, username)
                         break
     return
 
@@ -234,7 +234,7 @@ def __clip_cooldown_check(clip, username):
             return True
 
 
-def __play_clip(clip, userId):
+def __play_clip(clip, userId, username):
     global clip_playing
     clip_playing = True
 
@@ -244,6 +244,8 @@ def __play_clip(clip, userId):
         Parent.AddUserCooldown(ScriptName, user_cooldown_key, userId, user_cooldown_setting)
     if clip.cooldown > 0:
         Parent.AddCooldown(ScriptName, clip.command, clip.cooldown)
+    if clip.cost > 0:
+        Parent.RemovePoints(userId, username, clip.cost)
     __show_clip(clip)
     if clip.duration > 0:
         t = threading.Timer(clip.duration, lambda: __hide_clip(clip))
