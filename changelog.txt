@@ -1,0 +1,8 @@
+############################
+ChatPlaysClips
+v: 0.1.1
+############################
+
+- v. 0.1.1:
+    - Added this changelog :)
+    - Added all media extensions supported by Streamlabs OBS mediasource

@@ -18,7 +18,7 @@ ScriptName = "ChatPlaysClips"
 Website = "https://www.twitch.tv/meisterboom"
 Description = "Allows viewers to play certain clips and videos with a chat command."
 Creator = "MeisterBoom"
-Version = "0.1.0"
+Version = "0.1.1"
 
 # ---------------------------------------
 # Globals
@@ -101,8 +101,9 @@ def __load_clips_from_directory():
     try:
         if os.path.exists(settings["directory"]):
             for f in os.listdir(settings["directory"]):
-                if f.endswith(".mp4"):
-                    clipcollection.append(Clip(settings["directory"], f, settings))
+                for extension in constants.media_extensions:
+                    if f.endswith(extension):
+                        clipcollection.append(Clip(settings["directory"], f, settings))
             return True
         Logger("__load_clips_from_directory: Path {} does not exist!".format(settings["directory"]))
         return False

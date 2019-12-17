@@ -99,3 +99,5 @@ default_clip_config = """"clip_{}_active": {
     "tooltip": "Cooldown in seconds until this clip can be played again in seconds. 0 will have no clip cooldown effect",
     "value": {}
   }"""
+
+media_extensions = [".mp4", ".ts", ".mov", ".flv", ".mkv", ".avi", ".mp3", ".ogg", ".aac", ".wav", ".gif", ".webm"]
