@@ -18,7 +18,7 @@ ScriptName = "ChatPlaysClips"
 Website = "https://www.twitch.tv/meisterboom"
 Description = "Allows viewers to play certain clips and videos with a chat command."
 Creator = "MeisterBoom"
-Version = "0.1.1"
+Version = "0.1.2"
 
 # ---------------------------------------
 # Globals
@@ -152,7 +152,7 @@ def Execute(data):
         command = data.GetParam(0).lower()
         if str(command).startswith("!"):
             for clip in clipcollection:
-                if clip.command == str(command):
+                if clip.command.lower() == str(command):
                     if clip.active:
                         userId = data.User
                         username = data.UserName
